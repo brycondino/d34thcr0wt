@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://avatars.githubusercontent.com/u/7098564?v=4" width="150" height="150" alt="Bryan Condino profile photo" style="border-radius: 50%;" />
+
 # Hi, I'm Bryan Condino 👋
 
 ### Senior Application Developer | Backend & Database Engineer | Reporting & Dashboard Automation
