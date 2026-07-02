@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sample complex reporting dashboards by Bryan Condino covering transportation expense analytics and POS sales reporting." />
+  <title>Sample Reports | Bryan Condino</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(255, 255, 255, 0.075);
+      --panel-strong: rgba(255, 255, 255, 0.12);
+      --text: #eef5ff;
+      --muted: #a9b8ce;
+      --accent: #47d7ff;
+      --accent-2: #7c5cff;
+      --good: #50ffb1;
+      --warn: #ffd166;
+      --bad: #ff6b6b;
+      --line: rgba(255, 255, 255, 0.14);
+      --shadow: 0 22px 60px rgba(0,0,0,.34);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(71, 215, 255, .2), transparent 32rem),
+        radial-gradient(circle at top right, rgba(124, 92, 255, .22), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1200px, calc(100% - 36px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 17, 31, .76);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand { font-weight: 900; letter-spacing: -.04em; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 18px; color: var(--muted); font-size: .92rem; }
+    .nav-links a:hover { color: var(--text); }
+
+    .hero { padding: 80px 0 50px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.055);
+      font-size: .86rem;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+    .dot { width: 9px; height: 9px; border-radius: 999px; background: var(--good); box-shadow: 0 0 0 7px rgba(80,255,177,.1); }
+    h1 { font-size: clamp(2.6rem, 7vw, 5.2rem); line-height: .95; letter-spacing: -.075em; max-width: 980px; margin-bottom: 22px; }
+    .gradient { background: linear-gradient(135deg, #fff, var(--accent) 48%, #c8bfff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { color: var(--muted); max-width: 860px; font-size: 1.08rem; }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .btn {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      font-weight: 800;
+    }
+    .btn-primary { border: 0; color: #06101e; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+
+    section { padding: 56px 0; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin-bottom: 20px; }
+    .section-heading h2 { font-size: clamp(2rem, 5vw, 3.35rem); letter-spacing: -.06em; line-height: 1; }
+    .section-heading p { color: var(--muted); max-width: 580px; }
+
+    .dashboard {
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(71,215,255,.09), rgba(124,92,255,.08)), rgba(255,255,255,.035);
+      border-radius: 34px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .dashboard-top { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 20px; }
+    .dashboard-title h3 { font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: -.05em; line-height: 1.05; margin-bottom: 8px; }
+    .dashboard-title p { color: var(--muted); max-width: 760px; }
+    .status { white-space: nowrap; padding: 8px 12px; border-radius: 999px; background: rgba(80,255,177,.14); border: 1px solid rgba(80,255,177,.35); color: var(--good); font-weight: 900; font-size: .78rem; }
+
+    .filter-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .filter { border: 1px solid var(--line); background: rgba(255,255,255,.055); color: var(--muted); border-radius: 14px; padding: 10px 12px; font-size: .86rem; }
+    .filter b { color: var(--text); }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 18px; }
+    .kpi, .card, .table-card, .logic-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
+    .kpi { padding: 16px; }
+    .kpi span { display: block; color: var(--muted); font-size: .78rem; }
+    .kpi strong { display: block; color: var(--accent); font-size: 1.3rem; margin: 3px 0; }
+    .kpi small { color: var(--muted); }
+    .up { color: var(--good) !important; }
+    .down { color: var(--bad) !important; }
+    .warn { color: var(--warn) !important; }
+
+    .grid-2 { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .card { padding: 18px; }
+    .card h4, .table-card h4, .logic-card h4 { margin-bottom: 12px; letter-spacing: -.025em; }
+    .card p, .logic-card p { color: var(--muted); }
+
+    .bar-row { display: grid; grid-template-columns: 130px 1fr 60px; gap: 12px; align-items: center; color: var(--muted); font-size: .86rem; margin: 12px 0; }
+    .track { height: 12px; border-radius: 999px; background: rgba(255,255,255,.095); overflow: hidden; }
+    .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .fill-warn { background: linear-gradient(90deg, var(--warn), var(--bad)); }
+    .fill-good { background: linear-gradient(90deg, var(--good), var(--accent)); }
+
+    .trend { height: 230px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; align-items: end; padding-top: 20px; }
+    .trend-bar { border-radius: 12px 12px 4px 4px; min-height: 20px; background: linear-gradient(180deg, var(--accent), var(--accent-2)); position: relative; }
+    .trend-bar::after { content: attr(data-label); position: absolute; left: 50%; transform: translateX(-50%); bottom: -24px; color: var(--muted); font-size: .72rem; }
+
+    .donut-wrap { display: grid; grid-template-columns: 160px 1fr; gap: 18px; align-items: center; }
+    .donut { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(var(--accent) 0 38%, var(--accent-2) 38% 64%, var(--good) 64% 81%, var(--warn) 81% 92%, var(--bad) 92% 100%); position: relative; }
+    .donut::after { content: ""; position: absolute; inset: 34px; border-radius: 50%; background: #08111f; border: 1px solid var(--line); }
+    .legend { display: grid; gap: 8px; color: var(--muted); font-size: .9rem; }
+    .legend b { color: var(--text); }
+
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+    th, td { text-align: left; padding: 11px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--text); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+    td { color: var(--muted); }
+    .table-card { padding: 18px; overflow-x: auto; }
+
+    .logic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .logic-card { padding: 18px; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color: #d9f7ff;
+    }
+    pre { background: rgba(0,0,0,.28); border: 1px solid var(--line); border-radius: 18px; padding: 14px; overflow-x: auto; font-size: .78rem; line-height: 1.55; }
+
+    .badge { display: inline-flex; padding: 4px 9px; border-radius: 999px; font-size: .74rem; font-weight: 900; border: 1px solid var(--line); }
+    .badge-good { color: var(--good); background: rgba(80,255,177,.08); }
+    .badge-warn { color: var(--warn); background: rgba(255,209,102,.08); }
+    .badge-bad { color: var(--bad); background: rgba(255,107,107,.08); }
+
+    footer { padding: 40px 0; color: var(--muted); text-align: center; border-top: 1px solid var(--line); }
+
+    @media (max-width: 1050px) {
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+      .grid-2, .grid-3, .logic-grid { grid-template-columns: 1fr; }
+      .section-heading, .dashboard-top { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 620px) {
+      .nav-links { display: none; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 92px 1fr 42px; }
+      .donut-wrap { grid-template-columns: 1fr; }
+      .dashboard { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">Bryan<span>.</span>Reports</a>
+      <div class="nav-links">
+        <a href="#transportation">Transportation Expense</a>
+        <a href="#pos">POS Report</a>
+        <a href="#logic">Data Logic</a>
+        <a href="index.html">Back to Portfolio</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <div class="eyebrow"><span class="dot"></span> Sample dashboards using demo data only</div>
+      <h1>Complex reporting samples for <span class="gradient">transportation expense and POS sales analytics.</span></h1>
+      <p>
+        These are portfolio-ready reporting samples that demonstrate database thinking, KPI definition, exception reporting,
+        drill-down analysis, variance tracking, and dashboard-ready presentation. They are built as static HTML/CSS for GitHub Pages,
+        but the logic represents the type of reports I can build using SQL, PL/SQL, ETL scripts, Oracle reports, and dashboard datasets.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#transportation">View Transportation Dashboard</a>
+        <a class="btn" href="#pos">View POS Dashboard</a>
+        <a class="btn" href="mailto:bchengcondino@gmail.com">Discuss Reporting Work</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="transportation">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Transportation Expense Control Tower</h2>
+        <p>Designed for logistics, finance, and operations teams that need to monitor freight spend, route variance, carrier performance, and cost leakage.</p>
+      </div>
+
+      <div class="dashboard">
+        <div class="dashboard-top">
+          <div class="dashboard-title">
+            <h3>Transportation Expense Report — Monthly Executive View</h3>
+            <p>Demo period: Q2 2026. Focus: cost variance, freight expense, fuel surcharge, carrier SLA, exception routes, and budget control.</p>
+          </div>
+          <div class="status">DEMO DASHBOARD</div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter"><b>Period:</b> Apr–Jun 2026</div>
+          <div class="filter"><b>Region:</b> Luzon / Visayas / Mindanao</div>
+          <div class="filter"><b>Carrier:</b> All carriers</div>
+          <div class="filter"><b>Business Unit:</b> Retail Distribution</div>
+          <div class="filter"><b>Currency:</b> PHP</div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi"><span>Total Freight Spend</span><strong>₱4.82M</strong><small class="down">+7.8% vs budget</small></div>
+          <div class="kpi"><span>Cost per Kilometer</span><strong>₱42.60</strong><small class="warn">+₱3.10 variance</small></div>
+          <div class="kpi"><span>Fuel Surcharge</span><strong>₱640K</strong><small class="down">13.3% of spend</small></div>
+          <div class="kpi"><span>On-Time Delivery</span><strong>94.2%</strong><small class="up">+1.9 pts MoM</small></div>
+          <div class="kpi"><span>Empty Run Ratio</span><strong>8.4%</strong><small class="down">₱286K leakage est.</small></div>
+          <div class="kpi"><span>Invoice Exceptions</span><strong>126</strong><small class="warn">18 high priority</small></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Monthly Freight Spend Trend</h4>
+            <div class="trend">
+              <div class="trend-bar" style="height:45%" data-label="Jan"></div>
+              <div class="trend-bar" style="height:49%" data-label="Feb"></div>
+              <div class="trend-bar" style="height:53%" data-label="Mar"></div>
+              <div class="trend-bar" style="height:64%" data-label="Apr"></div>
+              <div class="trend-bar" style="height:72%" data-label="May"></div>
+              <div class="trend-bar" style="height:78%" data-label="Jun"></div>
+              <div class="trend-bar" style="height:62%" data-label="Jul"></div>
+              <div class="trend-bar" style="height:59%" data-label="Aug"></div>
+              <div class="trend-bar" style="height:68%" data-label="Sep"></div>
+              <div class="trend-bar" style="height:73%" data-label="Oct"></div>
+              <div class="trend-bar" style="height:81%" data-label="Nov"></div>
+              <div class="trend-bar" style="height:88%" data-label="Dec"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Expense Composition</h4>
+            <div class="donut-wrap">
+              <div class="donut"></div>
+              <div class="legend">
+                <span><b>38%</b> Line haul / base freight</span>
+                <span><b>26%</b> Fuel surcharge</span>
+                <span><b>17%</b> Truck rental / standby</span>
+                <span><b>11%</b> Toll and accessorial fees</span>
+                <span><b>8%</b> Claims, rework, and penalties</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h4>Top Cost Variance by Route</h4>
+            <div class="bar-row"><span>MNL → CEB</span><div class="track"><div class="fill-warn" style="width:92%"></div></div><span>+18%</span></div>
+            <div class="bar-row"><span>LAG → DAV</span><div class="track"><div class="fill-warn" style="width:84%"></div></div><span>+15%</span></div>
+            <div class="bar-row"><span>MNL → BAG</span><div class="track"><div class="fill" style="width:65%"></div></div><span>+9%</span></div>
+            <div class="bar-row"><span>ILO → BAC</span><div class="track"><div class="fill-good" style="width:41%"></div></div><span>-4%</span></div>
+          </div>
+          <div class="card">
+            <h4>Carrier SLA vs Cost</h4>
+            <div class="bar-row"><span>Carrier A</span><div class="track"><div class="fill-good" style="width:94%"></div></div><span>94%</span></div>
+            <div class="bar-row"><span>Carrier B</span><div class="track"><div class="fill" style="width:88%"></div></div><span>88%</span></div>
+            <div class="bar-row"><span>Carrier C</span><div class="track"><div class="fill-warn" style="width:76%"></div></div><span>76%</span></div>
+            <div class="bar-row"><span>Carrier D</span><div class="track"><div class="fill-warn" style="width:69%"></div></div><span>69%</span></div>
+          </div>
+          <div class="card">
+            <h4>Report Value</h4>
+            <p>Highlights freight overspend, budget leakage, invoice disputes, route variance, and operational behavior that impacts cost per shipment.</p>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top:16px;">
+          <h4>Exception Report — Transportation Expense</h4>
+          <table>
+            <thead>
+              <tr><th>Route</th><th>Carrier</th><th>Exception</th><th>Variance</th><th>Root Cause</th><th>Action</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>MNL → CEB</td><td>Carrier A</td><td>Fuel surcharge spike</td><td>₱128,400</td><td>Rate table not updated after contract change</td><td>Validate contract rate and reverse excess charge</td><td><span class="badge badge-bad">High</span></td></tr>
+              <tr><td>LAG → DAV</td><td>Carrier C</td><td>Empty return leg</td><td>₱91,300</td><td>No backhaul booking found</td><td>Review route planning and shipment consolidation</td><td><span class="badge badge-warn">Medium</span></td></tr>
+              <tr><td>MNL → BAG</td><td>Carrier B</td><td>Duplicate accessorial fee</td><td>₱34,900</td><td>Invoice matched to same delivery order twice</td><td>Flag duplicate and hold payment</td><td><span class="badge badge-bad">High</span></td></tr>
+              <tr><td>ILO → BAC</td><td>Carrier D</td><td>Late POD submission</td><td>₱12,700</td><td>Proof of delivery posted after cutoff</td><td>Monitor SLA compliance</td><td><span class="badge badge-good">Low</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pos">
+    <div class="container">
+      <div class="section-heading">
+        <h2>POS Sales and Margin Report</h2>
+        <p>Designed for retail teams that need daily sales monitoring, product/category performance, store variance, payment mix, and cashier exception tracking.</p>
+      </div>
+
+      <div class="dashboard">
+        <div class="dashboard-top">
+          <div class="dashboard-title">
+            <h3>POS Analytics Dashboard — Store Operations View</h3>
+            <p>Demo period: June 2026. Focus: net sales, gross margin, basket size, store performance, top SKUs, refunds, voids, and payment trends.</p>
+          </div>
+          <div class="status">SAMPLE POS REPORT</div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter"><b>Date:</b> June 2026</div>
+          <div class="filter"><b>Channel:</b> In-store / Pickup</div>
+          <div class="filter"><b>Store Group:</b> Metro Manila</div>
+          <div class="filter"><b>Terminal:</b> All active terminals</div>
+          <div class="filter"><b>Report Cutoff:</b> 11:59 PM</div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi"><span>Net Sales</span><strong>₱12.9M</strong><small class="up">+11.6% vs last month</small></div>
+          <div class="kpi"><span>Gross Margin</span><strong>32.4%</strong><small class="up">+2.1 pts</small></div>
+          <div class="kpi"><span>Transactions</span><strong>18,920</strong><small class="up">+8.7%</small></div>
+          <div class="kpi"><span>Average Basket</span><strong>₱683</strong><small class="warn">-₱21 vs target</small></div>
+          <div class="kpi"><span>Refund / Void Rate</span><strong>1.7%</strong><small class="down">above 1.2% threshold</small></div>
+          <div class="kpi"><span>Stockout Risk SKUs</span><strong>34</strong><small class="warn">8 critical SKUs</small></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Hourly Sales Curve</h4>
+            <div class="trend">
+              <div class="trend-bar" style="height:24%" data-label="8a"></div>
+              <div class="trend-bar" style="height:31%" data-label="9a"></div>
+              <div class="trend-bar" style="height:42%" data-label="10a"></div>
+              <div class="trend-bar" style="height:55%" data-label="11a"></div>
+              <div class="trend-bar" style="height:74%" data-label="12p"></div>
+              <div class="trend-bar" style="height:62%" data-label="1p"></div>
+              <div class="trend-bar" style="height:58%" data-label="2p"></div>
+              <div class="trend-bar" style="height:64%" data-label="3p"></div>
+              <div class="trend-bar" style="height:76%" data-label="4p"></div>
+              <div class="trend-bar" style="height:92%" data-label="5p"></div>
+              <div class="trend-bar" style="height:88%" data-label="6p"></div>
+              <div class="trend-bar" style="height:61%" data-label="7p"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Payment Mix</h4>
+            <div class="donut-wrap">
+              <div class="donut" style="background: conic-gradient(var(--accent) 0 45%, var(--accent-2) 45% 68%, var(--good) 68% 84%, var(--warn) 84% 94%, var(--bad) 94% 100%);"></div>
+              <div class="legend">
+                <span><b>45%</b> Cash</span>
+                <span><b>23%</b> Credit / debit card</span>
+                <span><b>16%</b> E-wallet</span>
+                <span><b>10%</b> Gift card / voucher</span>
+                <span><b>6%</b> Refunds and adjustments</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h4>Top Categories by Sales</h4>
+            <div class="bar-row"><span>Grocery</span><div class="track"><div class="fill" style="width:91%"></div></div><span>₱4.1M</span></div>
+            <div class="bar-row"><span>Pharmacy</span><div class="track"><div class="fill" style="width:74%"></div></div><span>₱2.8M</span></div>
+            <div class="bar-row"><span>Personal Care</span><div class="track"><div class="fill" style="width:61%"></div></div><span>₱1.9M</span></div>
+            <div class="bar-row"><span>Beverages</span><div class="track"><div class="fill" style="width:48%"></div></div><span>₱1.3M</span></div>
+          </div>
+          <div class="card">
+            <h4>Store Variance vs Target</h4>
+            <div class="bar-row"><span>Store 014</span><div class="track"><div class="fill-good" style="width:112%"></div></div><span>+12%</span></div>
+            <div class="bar-row"><span>Store 022</span><div class="track"><div class="fill-good" style="width:106%"></div></div><span>+6%</span></div>
+            <div class="bar-row"><span>Store 031</span><div class="track"><div class="fill-warn" style="width:88%"></div></div><span>-12%</span></div>
+            <div class="bar-row"><span>Store 047</span><div class="track"><div class="fill-warn" style="width:79%"></div></div><span>-21%</span></div>
+          </div>
+          <div class="card">
+            <h4>Report Value</h4>
+            <p>Shows revenue, product movement, margin impact, payment behavior, cashier exceptions, and inventory risk from POS-level transaction data.</p>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top:16px;">
+          <h4>Exception Report — POS Transactions</h4>
+          <table>
+            <thead>
+              <tr><th>Store</th><th>Terminal</th><th>Cashier</th><th>Exception</th><th>Amount</th><th>Likely Cause</th><th>Action</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>014</td><td>T-03</td><td>C-102</td><td>High void count</td><td>₱42,600</td><td>Repeated item cancellation after scan</td><td>Review CCTV and POS audit log</td><td><span class="badge badge-bad">High</span></td></tr>
+              <tr><td>031</td><td>T-01</td><td>C-088</td><td>Negative margin sale</td><td>₱18,300</td><td>Promo price below item cost</td><td>Validate active promo setup</td><td><span class="badge badge-warn">Medium</span></td></tr>
+              <tr><td>047</td><td>T-04</td><td>C-176</td><td>Refund after cutoff</td><td>₱9,840</td><td>Return posted beyond end-of-day window</td><td>Reconcile cash drawer and refund policy</td><td><span class="badge badge-warn">Medium</span></td></tr>
+              <tr><td>022</td><td>T-02</td><td>C-119</td><td>Payment mismatch</td><td>₱4,200</td><td>E-wallet callback not matched to receipt</td><td>Reprocess payment gateway reconciliation</td><td><span class="badge badge-good">Low</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="logic">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Backend and reporting logic</h2>
+        <p>This section shows how I would translate business reporting requirements into SQL, validation rules, and dashboard-ready datasets.</p>
+      </div>
+
+      <div class="logic-grid">
+        <div class="logic-card">
+          <h4>Transportation Data Model</h4>
+          <p>Sample source tables for report-ready datasets.</p>
+          <pre>shipments
+shipment_id, route_id, carrier_id,
+origin, destination, actual_km,
+delivery_date, pod_status
+
+freight_invoices
+invoice_id, shipment_id, base_freight,
+fuel_surcharge, toll_fee, accessorial_fee,
+invoice_amount, invoice_date
+
+carrier_contract_rates
+carrier_id, route_id, rate_per_km,
+fuel_rate_pct, effective_from, effective_to</pre>
+        </div>
+
+        <div class="logic-card">
+          <h4>POS Data Model</h4>
+          <p>Sample source tables for sales and margin reporting.</p>
+          <pre>pos_transactions
+receipt_no, store_id, terminal_id,
+cashier_id, transaction_time,
+gross_sales, discount, net_sales
+
+pos_items
+receipt_no, sku, quantity,
+selling_price, item_cost, promo_id
+
+pos_payments
+receipt_no, payment_type,
+payment_amount, gateway_ref_no</pre>
+        </div>
+
+        <div class="logic-card">
+          <h4>Metric Rules</h4>
+          <p>Key report calculations for validation and dashboard trust.</p>
+          <pre>Transportation:
+Cost per KM = invoice_amount / actual_km
+Budget Variance = actual_cost - contracted_cost
+Empty Run % = empty_return_trips / total_trips
+
+POS:
+Net Sales = gross_sales - discount - refund
+Gross Margin % = (net_sales - cost) / net_sales
+Void Rate = voided_transactions / total_transactions</pre>
+        </div>
+      </div>
+
+      <div class="table-card" style="margin-top:16px;">
+        <h4>Sample SQL Logic — Transportation Expense Variance</h4>
+        <pre>SELECT
+    s.route_id,
+    s.origin,
+    s.destination,
+    c.carrier_name,
+    SUM(fi.invoice_amount) AS actual_cost,
+    SUM(s.actual_km * cr.rate_per_km) AS contracted_cost,
+    SUM(fi.invoice_amount) - SUM(s.actual_km * cr.rate_per_km) AS variance_amount,
+    ROUND(
+      (SUM(fi.invoice_amount) - SUM(s.actual_km * cr.rate_per_km))
+      / NULLIF(SUM(s.actual_km * cr.rate_per_km), 0) * 100, 2
+    ) AS variance_pct
+FROM shipments s
+JOIN freight_invoices fi ON fi.shipment_id = s.shipment_id
+JOIN carriers c ON c.carrier_id = s.carrier_id
+JOIN carrier_contract_rates cr
+  ON cr.carrier_id = s.carrier_id
+ AND cr.route_id = s.route_id
+ AND fi.invoice_date BETWEEN cr.effective_from AND cr.effective_to
+GROUP BY s.route_id, s.origin, s.destination, c.carrier_name
+HAVING ABS(SUM(fi.invoice_amount) - SUM(s.actual_km * cr.rate_per_km)) > 10000
+ORDER BY variance_amount DESC;</pre>
+      </div>
+
+      <div class="table-card" style="margin-top:16px;">
+        <h4>Sample SQL Logic — POS Sales and Margin Summary</h4>
+        <pre>SELECT
+    t.store_id,
+    TRUNC(t.transaction_time) AS sales_date,
+    COUNT(DISTINCT t.receipt_no) AS transaction_count,
+    SUM(t.net_sales) AS net_sales,
+    SUM(i.quantity * i.item_cost) AS total_cost,
+    SUM(t.net_sales) - SUM(i.quantity * i.item_cost) AS gross_margin_amount,
+    ROUND(
+      (SUM(t.net_sales) - SUM(i.quantity * i.item_cost))
+      / NULLIF(SUM(t.net_sales), 0) * 100, 2
+    ) AS gross_margin_pct,
+    ROUND(SUM(t.net_sales) / NULLIF(COUNT(DISTINCT t.receipt_no), 0), 2) AS avg_basket
+FROM pos_transactions t
+JOIN pos_items i ON i.receipt_no = t.receipt_no
+WHERE t.transaction_time >= DATE '2026-06-01'
+  AND t.transaction_time <  DATE '2026-07-01'
+GROUP BY t.store_id, TRUNC(t.transaction_time)
+ORDER BY sales_date, store_id;</pre>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      Demo dashboards by Bryan Condino. Sample data only. Built for portfolio showcase on GitHub Pages.
+    </div>
+  </footer>
+</body>
+</html>
