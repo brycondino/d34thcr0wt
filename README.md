@@ -6,7 +6,8 @@
 
 I build reliable backend systems, optimize high-volume databases, and create reporting-ready data workflows using Oracle, SQL/PLSQL, Python, Unix Shell, Perl, and AWS.
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-Reporting%20Dashboard%20Showcase-47d7ff?style=for-the-badge&logo=githubpages)](https://d34thcr0wt.github.io/d34thcr0wt/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Reporting%20Dashboard%20Showcase-47d7ff?style=for-the-badge&logo=githubpages)](https://brycondino.github.io/brycondino/)
+[![GitHub](https://img.shields.io/badge/GitHub-brycondino-181717?style=for-the-badge&logo=github)](https://github.com/brycondino)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Bryan%20Condino-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/bryanCondino)
 [![Email](https://img.shields.io/badge/Email-bchengcondino%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:bchengcondino@gmail.com)
 [![Location](https://img.shields.io/badge/Based%20in-Philippines-success?style=for-the-badge&logo=googlemaps)](#)
@@ -17,11 +18,11 @@ I build reliable backend systems, optimize high-volume databases, and create rep
 
 ## 🌐 Portfolio Website
 
-Portfolio URL:
+Portfolio URL after the repository is renamed to `brycondino`:
 
-`https://d34thcr0wt.github.io/d34thcr0wt/`
+`https://brycondino.github.io/brycondino/`
 
-The portfolio now includes a dedicated **Reporting & Dashboard Availability Showcase** section with KPI cards, sample dashboard visuals, reporting services, and report automation positioning.
+The portfolio includes a dedicated **Reporting & Dashboard Availability Showcase** section with KPI cards, sample dashboard visuals, reporting services, and report automation positioning.
 
 ---
 
@@ -99,9 +100,9 @@ Delivered Oracle database development, PL/SQL packages, Shell/Perl automation, O
 
 <div align="center">
 
-![Bryan's GitHub stats](https://github-readme-stats.vercel.app/api?username=d34thcr0wt&show_icons=true&hide_border=true&rank_icon=github)
+![Bryan's GitHub stats](https://github-readme-stats.vercel.app/api?username=brycondino&show_icons=true&hide_border=true&rank_icon=github)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=d34thcr0wt&layout=compact&hide_border=true)
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=brycondino&layout=compact&hide_border=true)
 
 </div>
 
