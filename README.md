@@ -7,6 +7,7 @@
 I build reliable backend systems, optimize high-volume databases, and create reporting-ready data workflows using Oracle, SQL/PLSQL, Python, Unix Shell, Perl, and AWS.
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-Reporting%20Dashboard%20Showcase-47d7ff?style=for-the-badge&logo=githubpages)](https://brycondino.github.io/brycondino/)
+[![Sample Reports](https://img.shields.io/badge/Sample%20Reports-Transportation%20and%20POS-50ffb1?style=for-the-badge)](https://brycondino.github.io/brycondino/reports.html)
 [![GitHub](https://img.shields.io/badge/GitHub-brycondino-181717?style=for-the-badge&logo=github)](https://github.com/brycondino)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Bryan%20Condino-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/bryanCondino)
 [![Email](https://img.shields.io/badge/Email-bchengcondino%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:bchengcondino@gmail.com)
@@ -22,7 +23,25 @@ Portfolio URL after the repository is renamed to `brycondino`:
 
 `https://brycondino.github.io/brycondino/`
 
-The portfolio includes a dedicated **Reporting & Dashboard Availability Showcase** section with KPI cards, sample dashboard visuals, reporting services, and report automation positioning.
+Sample complex report dashboards:
+
+`https://brycondino.github.io/brycondino/reports.html`
+
+---
+
+## 📊 Sample Complex Reports and Dashboards
+
+I created portfolio-ready dashboards using demo data only:
+
+### Transportation Expense Control Tower
+
+A logistics and finance dashboard for freight spend, route variance, carrier SLA, fuel surcharge, empty runs, invoice exceptions, and cost leakage.
+
+### POS Sales and Margin Report
+
+A retail POS dashboard for net sales, gross margin, transaction count, average basket size, refunds, voids, payment mix, top categories, store variance, and cashier or terminal exceptions.
+
+The sample report page also includes data model notes and SQL-style logic for transportation expense variance and POS margin reporting.
 
 ---
 
