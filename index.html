@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Bryan Condino - Senior Application Developer specializing in backend systems, database optimization, SQL/PLSQL, ETL automation, and AWS cloud solutions." />
+  <meta name="author" content="Bryan Condino" />
+  <title>Bryan Condino | Senior Application Developer</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --card: rgba(255, 255, 255, 0.075);
+      --card-strong: rgba(255, 255, 255, 0.12);
+      --text: #eef5ff;
+      --muted: #aab9cf;
+      --accent: #47d7ff;
+      --accent-2: #7c5cff;
+      --line: rgba(255, 255, 255, 0.14);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(71, 215, 255, 0.22), transparent 34rem),
+        radial-gradient(circle at top right, rgba(124, 92, 255, 0.22), transparent 32rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(8, 17, 31, 0.74);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: 1.1rem;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(71, 215, 255, 0.55);
+      background: var(--card-strong);
+    }
+
+    .btn-primary {
+      border: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06101e;
+      box-shadow: 0 18px 36px rgba(71, 215, 255, 0.2);
+    }
+
+    .hero {
+      padding: 104px 0 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #50ffb1;
+      box-shadow: 0 0 0 7px rgba(80, 255, 177, 0.1);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 5.7rem);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff, var(--accent) 48%, #bcaeff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.12rem;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .stat, .card, .experience-item {
+      border: 1px solid var(--line);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: 24px;
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--accent);
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .profile-card {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: -80px -80px auto auto;
+      width: 190px;
+      height: 190px;
+      border-radius: 999px;
+      background: rgba(71, 215, 255, 0.16);
+      filter: blur(4px);
+    }
+
+    .avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 28px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06101e;
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    .profile-card h2 {
+      font-size: 1.5rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .profile-card p {
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin-bottom: 14px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+    }
+
+    .icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(71, 215, 255, 0.12);
+      margin-bottom: 18px;
+      font-size: 1.35rem;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .card p, .experience-item p, .experience-item li {
+      color: var(--muted);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .skill-box {
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .skill-box h3 {
+      margin-bottom: 14px;
+    }
+
+    .experience-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .experience-item {
+      padding: 26px;
+    }
+
+    .experience-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .experience-top h3 {
+      letter-spacing: -0.035em;
+    }
+
+    .experience-top span {
+      color: var(--accent);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .experience-item ul {
+      margin-left: 20px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .contact {
+      text-align: center;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(71, 215, 255, 0.12), rgba(124, 92, 255, 0.12));
+      padding: 56px 28px;
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact h2 {
+      font-size: clamp(2rem, 5vw, 3.3rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin-bottom: 14px;
+    }
+
+    .contact p {
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto 26px;
+    }
+
+    footer {
+      padding: 36px 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .cards, .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding-top: 72px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .experience-top {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">Bryan<span>.</span>Dev</a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#impact">Impact</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="pulse"></span> Available for backend, database, and automation roles</div>
+          <h1>Backend systems that are <span class="gradient-text">fast, reliable, and easy to trust.</span></h1>
+          <p>
+            I'm Bryan Condino, a Senior Application Developer with 10 years of experience in database development,
+            SQL/PLSQL tuning, ETL automation, cloud workflows, and production-ready backend systems.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:bchengcondino@gmail.com">Work with me</a>
+            <a class="btn" href="https://www.linkedin.com/in/bryanCondino" target="_blank" rel="noreferrer">View LinkedIn</a>
+            <a class="btn" href="https://github.com/d34thcr0wt" target="_blank" rel="noreferrer">GitHub Profile</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>10+</strong><span>Years experience</span></div>
+            <div class="stat"><strong>40%</strong><span>Database performance gain</span></div>
+            <div class="stat"><strong>70%</strong><span>Manual effort reduced</span></div>
+            <div class="stat"><strong>99.9%</strong><span>Production uptime supported</span></div>
+          </div>
+        </div>
+
+        <aside class="card profile-card">
+          <div class="avatar">BC</div>
+          <h2>Senior Application Developer</h2>
+          <p>
+            I help teams modernize backend workflows, improve data processing speed, and reduce operational risk
+            through automation, database design, and cloud integration.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Oracle</span>
+            <span class="tag">SQL / PL/SQL</span>
+            <span class="tag">AWS Lambda</span>
+            <span class="tag">API Gateway</span>
+            <span class="tag">ETL</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Python</span>
+            <span class="tag">Shell / Perl</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-heading">
+          <h2>What I can deliver</h2>
+          <p>Practical engineering support for teams that need stronger data systems, cleaner automations, and faster production workflows.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="icon">⚡</div>
+            <h3>Database Optimization</h3>
+            <p>SQL tuning, PL/SQL refactoring, indexing review, reporting performance improvement, stored procedures, and production bottleneck analysis.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🔁</div>
+            <h3>Automation & ETL</h3>
+            <p>Automated ingestion, migration scripts, batch processing, FTP/SFTP workflows, Unix Shell, Perl, Python, and data validation routines.</p>
+          </article>
+          <article class="card">
+            <div class="icon">☁️</div>
+            <h3>Cloud Backend Workflows</h3>
+            <p>AWS Lambda, API Gateway, RDS, S3, EventBridge, CloudWatch, Secrets Manager, backend integration, and operational monitoring.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Impact highlights</h2>
+          <p>Focused on measurable improvements: faster processing, reduced manual work, better uptime, and cleaner data delivery.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <h3>Performance improved by up to 40%</h3>
+            <p>Optimized Oracle transactions and reporting workflows through SQL/PLSQL tuning and query improvements.</p>
+          </article>
+          <article class="card">
+            <h3>JSON processing automated by 70%</h3>
+            <p>Built AWS Lambda and API Gateway workflows that reduced manual JSON ingestion and processing effort.</p>
+          </article>
+          <article class="card">
+            <h3>Hours reduced to minutes</h3>
+            <p>Improved turnaround time using optimized parsing, database design, stored procedures, and backend automation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Technical strengths</h2>
+          <p>A backend and database-first toolkit built around practical production delivery.</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-box">
+            <h3>Databases & Data</h3>
+            <div class="tag-list">
+              <span class="tag">Oracle</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><span class="tag">Data Modelling</span><span class="tag">Data Lineage</span><span class="tag">High-Volume Processing</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <h3>Programming & Scripting</h3>
+            <div class="tag-list">
+              <span class="tag">SQL</span><span class="tag">PL/SQL</span><span class="tag">Python</span><span class="tag">Unix Shell</span><span class="tag">Perl</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <h3>AWS & Automation</h3>
+            <div class="tag-list">
+              <span class="tag">Lambda</span><span class="tag">API Gateway</span><span class="tag">RDS</span><span class="tag">S3</span><span class="tag">EC2</span><span class="tag">CloudWatch</span><span class="tag">EventBridge</span>
+            </div>
+          </div>
+          <div class="skill-box">
+            <h3>Delivery Practices</h3>
+            <div class="tag-list">
+              <span class="tag">Agile</span><span class="tag">Scrum</span><span class="tag">SDLC</span><span class="tag">UAT</span><span class="tag">Production Support</span><span class="tag">Documentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Experience snapshot</h2>
+          <p>10 years across backend development, Oracle systems, data workflows, reporting, and production support.</p>
+        </div>
+        <div class="experience-list">
+          <article class="experience-item">
+            <div class="experience-top">
+              <div>
+                <h3>Backend Developer — Accenture PH</h3>
+                <p>Atlan Data Lineage / Backend Systems</p>
+              </div>
+              <span>2021 — Present</span>
+            </div>
+            <ul>
+              <li>Designed and built MySQL backend workflows for large-scale metadata and data lineage support.</li>
+              <li>Automated JSON ingestion using AWS Lambda and API Gateway.</li>
+              <li>Developed stored procedures and functions for JSON processing and Mulesoft API export workflows.</li>
+            </ul>
+          </article>
+
+          <article class="experience-item">
+            <div class="experience-top">
+              <div>
+                <h3>Oracle Developer & Support — Traxtech Technologies</h3>
+                <p>Database Optimization / Reporting / Production Support</p>
+              </div>
+              <span>2018 — 2021</span>
+            </div>
+            <ul>
+              <li>Improved transaction processing and reporting performance through SQL/PLSQL optimization.</li>
+              <li>Automated migration and reporting workflows with Unix Shell and Perl scripts.</li>
+              <li>Resolved critical production issues while supporting high-availability client systems.</li>
+            </ul>
+          </article>
+
+          <article class="experience-item">
+            <div class="experience-top">
+              <div>
+                <h3>Oracle Developer — Earlier Roles</h3>
+                <p>Unison Computer Systems, Software Laboratories, Haystack BI</p>
+              </div>
+              <span>2015 — 2018</span>
+            </div>
+            <ul>
+              <li>Developed PL/SQL packages, triggers, procedures, reports, file transfer automation, and Oracle EBS R12 integrations.</li>
+              <li>Created functional and technical documentation including MD50, MD70, and user guides.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact">
+          <h2>Let’s build faster, cleaner backend systems.</h2>
+          <p>
+            Open to backend development, database engineering, Oracle/SQL optimization, cloud automation,
+            and data workflow improvement opportunities.
+          </p>
+          <div class="hero-actions" style="justify-content: center; margin-bottom: 0;">
+            <a class="btn btn-primary" href="mailto:bchengcondino@gmail.com">Email Me</a>
+            <a class="btn" href="https://www.linkedin.com/in/bryanCondino" target="_blank" rel="noreferrer">Connect on LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Bryan Condino. Built with HTML/CSS and hosted free on GitHub Pages.
+    </div>
+  </footer>
+</body>
+</html>
