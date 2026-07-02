@@ -6,11 +6,32 @@
 
 I build reliable backend systems, optimize high-volume databases, and automate manual workflows using Oracle, SQL/PLSQL, Python, Unix Shell, Perl, and AWS.
 
+[![Portfolio](https://img.shields.io/badge/Portfolio-Launch%20Free%20Website-47d7ff?style=for-the-badge&logo=githubpages)](https://d34thcr0wt.github.io/d34thcr0wt/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Bryan%20Condino-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/bryanCondino)
 [![Email](https://img.shields.io/badge/Email-bchengcondino%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:bchengcondino@gmail.com)
 [![Location](https://img.shields.io/badge/Based%20in-Philippines-success?style=for-the-badge&logo=googlemaps)](#)
 
 </div>
+
+---
+
+## 🌐 Launch a Free Portfolio Website
+
+I created a free one-page portfolio website in this repository using plain **HTML + CSS**, ready to publish with **GitHub Pages**.
+
+**Portfolio URL after GitHub Pages is enabled:**  
+`https://d34thcr0wt.github.io/d34thcr0wt/`
+
+### How to publish it
+
+1. Open this repository: `d34thcr0wt/d34thcr0wt`
+2. Go to **Settings** → **Pages**
+3. Under **Build and deployment**, choose:
+   - **Source:** Deploy from a branch
+   - **Branch:** `main`
+   - **Folder:** `/root`
+4. Click **Save**
+5. Wait a few minutes, then open the portfolio URL above.
 
 ---
 
@@ -20,7 +41,7 @@ I specialize in turning slow, manual, and complex data processes into scalable b
 
 - ⚡ **Database Performance Optimization** — SQL/PLSQL tuning, query optimization, stored procedures, reporting performance, and production issue resolution.
 - 🔁 **Workflow & ETL Automation** — Unix Shell, Perl, Python, automated migration scripts, file processing, and batch workflows.
-- ☁️ **AWS Backend Automation** — Lambda, API Gateway, RDS, S3, EC2, EventBridge, CloudWatch, and Secrets Manager.
+- ☁️ **AWS Backend Automation** — Lambda, RDS, S3, EC2, EventBridge, CloudWatch, and Secrets Manager.
 - 📊 **Data Engineering & Lineage** — metadata processing, data modelling, data cataloguing, lineage workflows, and high-volume data handling.
 - 🛠️ **Production-Ready Delivery** — SDLC execution from requirements, development, UAT, deployment, monitoring, and support.
 
