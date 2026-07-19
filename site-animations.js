@@ -59,38 +59,44 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!strip || !list) return;
 
     const laneOne = [
-      ['ChatGPT', 'openai', '10A37F'],
-      ['Claude', 'anthropic', 'D97757'],
-      ['DeepSeek', 'deepseek', '4D6BFE'],
-      ['GitHub Copilot', 'githubcopilot', 'FFFFFF'],
-      ['n8n', 'n8n', 'EA4B71'],
-      ['Supabase', 'supabase', '3FCF8E'],
-      ['Vercel', 'vercel', 'FFFFFF'],
-      ['Resend', 'resend', 'FFFFFF'],
-      ['Firebase', 'firebase', 'FFCA28'],
-      ['Oracle', 'oracle', 'F80000'],
-      ['Oracle APEX', 'oracleapex', 'FFFFFF'],
-      ['AWS', 'amazonwebservices', 'FF9900']
+      ['Oracle', '#f80000', 'ORACLE'], ['ChatGPT', '#10a37f', 'AI'], ['Claude', '#d97757', '✦'],
+      ['DeepSeek', '#4d6bfe', 'DS'], ['GitHub Copilot', '#8b5cf6', '◉'], ['n8n', '#ea4b71', 'n8n'],
+      ['Supabase', '#3fcf8e', '⚡'], ['Vercel', '#ffffff', '▲'], ['Resend', '#ffffff', 'R'],
+      ['Firebase', '#ffca28', '🔥'], ['AWS', '#ff9900', 'aws'], ['VS Code', '#23a8f2', '⌁'],
+      ['GitHub', '#ffffff', 'GH'], ['GitLab', '#fc6d26', '◆'], ['Docker', '#2496ed', '▦'],
+      ['Jenkins', '#d33833', 'J'], ['IntelliJ IDEA', '#ff2d55', 'IJ']
     ];
     const laneTwo = [
-      ['MySQL', 'mysql', '4479A1'],
-      ['PostgreSQL', 'postgresql', '4169E1'],
-      ['Python', 'python', '3776AB'],
-      ['Git', 'git', 'F05032'],
-      ['GitHub', 'github', 'FFFFFF'],
-      ['Jira', 'jira', '0052CC'],
-      ['Postman', 'postman', 'FF6C37'],
-      ['Cypress', 'cypress', '69D3A7'],
-      ['CircleCI', 'circleci', 'FFFFFF'],
-      ['Confluence', 'confluence', '172B4D'],
-      ['Linux', 'linux', 'FCC624'],
-      ['Windows', 'windows11', '0078D4']
+      ['MySQL', '#4479a1', 'My'], ['PostgreSQL', '#4169e1', 'PG'], ['Python', '#3776ab', 'Py'],
+      ['Git', '#f05032', '◇'], ['Jira', '#2684ff', '◆'], ['Sublime Text', '#ff9800', 'S'],
+      ['Postman', '#ff6c37', '◒'], ['Selenium', '#43b02a', 'Se'], ['Cypress', '#69d3a7', 'CY'],
+      ['CircleCI', '#ffffff', 'CI'], ['Confluence', '#172b4d', 'CF'], ['Linux', '#fcc624', 'Lx'],
+      ['Windows', '#0078d4', '⊞'], ['Oracle APEX', '#f80000', 'APEX'], ['Firebase', '#ffca28', '🔥'],
+      ['Supabase', '#3fcf8e', '⚡'], ['Vercel', '#ffffff', '▲']
     ];
+
+    function renderLogo(tool) {
+      const name = tool[0];
+      const color = tool[1];
+      const mark = tool[2];
+      const textSize = mark.length > 3 ? 7 : mark.length > 2 ? 9 : 12;
+      const special = name === 'Oracle'
+        ? `<ellipse cx="24" cy="24" rx="16" ry="9" fill="none" stroke="${color}" stroke-width="4"/><text x="24" y="27" text-anchor="middle" font-size="6" font-weight="800" fill="${color}">ORACLE</text>`
+        : name === 'ChatGPT'
+          ? `<g fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round"><circle cx="24" cy="24" r="10"/><path d="M24 10l7 4 7 10-7 10-7 4-7-4-7-10 7-10z"/></g>`
+          : name === 'GitLab'
+            ? `<path d="M24 39 9 27l5-17 6 11h8l6-11 5 17z" fill="${color}"/>`
+            : name === 'Docker'
+              ? `<g fill="${color}"><rect x="11" y="20" width="6" height="6" rx="1"/><rect x="18" y="20" width="6" height="6" rx="1"/><rect x="25" y="20" width="6" height="6" rx="1"/><rect x="18" y="13" width="6" height="6" rx="1"/><rect x="25" y="13" width="6" height="6" rx="1"/><path d="M8 28h31c-2 8-8 11-16 11-7 0-12-3-15-11z"/></g>`
+              : name === 'VS Code'
+                ? `<path d="M12 16l8 8-8 8 5 4 11-12-11-12zM28 12l9-4v32l-9-4z" fill="${color}"/>`
+                : `<circle cx="24" cy="24" r="16" fill="${color}" opacity=".14"/><text x="24" y="${mark === '🔥' ? 30 : 28}" text-anchor="middle" font-size="${textSize}" font-family="Arial, sans-serif" font-weight="800" fill="${color}">${mark}</text>`;
+      return `<svg class="technology-marquee-logo" viewBox="0 0 48 48" role="img" aria-label="${name} logo">${special}</svg>`;
+    }
 
     function renderItems(tools) {
       return tools.map(function (tool) {
-        const logoUrl = `https://cdn.simpleicons.org/${tool[1]}/${tool[2]}`;
-        return `<span class="technology-marquee-item"><span class="technology-marquee-logo-wrap" aria-hidden="true"><img class="technology-marquee-logo" src="${logoUrl}" alt="" loading="lazy" decoding="async" onerror="this.closest('.technology-marquee-item').remove()"></span><span class="technology-marquee-name">${tool[0]}</span></span>`;
+        return `<span class="technology-marquee-item" style="--brand:${tool[1]}"><span class="technology-marquee-logo-wrap" aria-hidden="true">${renderLogo(tool)}</span><span class="technology-marquee-name">${tool[0]}</span></span>`;
       }).join('');
     }
 
@@ -107,24 +113,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const style = document.createElement('style');
     style.textContent = `
-      .technology-strip{overflow:hidden;padding:36px 0 34px}
-      .technology-strip .container{width:100%;max-width:none}
-      .technology-label{margin-bottom:24px}
+      .technology-strip{overflow:hidden;padding:36px 0 34px}.technology-strip .container{width:100%;max-width:none}.technology-label{margin-bottom:24px}
       .technology-marquee{display:grid;gap:16px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
-      .technology-marquee-lane{overflow:hidden;outline:none}
-      .technology-marquee-track{display:flex;width:max-content;will-change:transform}
-      .technology-marquee-lane--forward .technology-marquee-track{animation:technology-marquee-forward 42s linear infinite}
-      .technology-marquee-lane--reverse .technology-marquee-track{animation:technology-marquee-reverse 46s linear infinite}
-      .technology-marquee-group{display:flex;align-items:center;gap:17px;padding-right:17px}
-      .technology-marquee-item{display:inline-flex;min-width:max-content;align-items:center;gap:11px;padding:9px 15px 9px 9px;border:1px solid var(--line);border-radius:999px;background:linear-gradient(135deg,var(--surface-strong),var(--surface));color:var(--text);font-family:"Space Grotesk",sans-serif;font-size:.78rem;font-weight:700;box-shadow:0 10px 28px rgba(0,0,0,.15);backdrop-filter:blur(14px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-      .technology-marquee-logo-wrap{display:grid;width:42px;height:42px;place-items:center;border:1px solid rgba(73,215,255,.2);border-radius:50%;background:rgba(255,255,255,.06);box-shadow:inset 0 0 18px rgba(73,215,255,.05)}
-      .technology-marquee-logo{display:block;width:25px;height:25px;object-fit:contain}
-      .technology-marquee-item:hover{transform:translateY(-2px) scale(1.025);border-color:rgba(73,215,255,.42);box-shadow:0 14px 34px rgba(0,0,0,.2),0 0 22px rgba(73,215,255,.08)}
-      .technology-marquee-lane:hover .technology-marquee-track,.technology-marquee-lane:focus-within .technology-marquee-track{animation-play-state:paused}
-      @keyframes technology-marquee-forward{to{transform:translateX(-50%)}}
-      @keyframes technology-marquee-reverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-      @media(max-width:900px){.technology-marquee{gap:13px}.technology-marquee-group{gap:13px;padding-right:13px}.technology-marquee-item{font-size:.72rem}.technology-marquee-logo-wrap{width:38px;height:38px}.technology-marquee-logo{width:23px;height:23px}}
-      @media(max-width:680px){.technology-strip{padding-block:30px}.technology-marquee{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}.technology-marquee-lane--forward .technology-marquee-track{animation-duration:48s}.technology-marquee-lane--reverse .technology-marquee-track{animation-duration:52s}.technology-marquee-item{padding:7px 12px 7px 7px}.technology-marquee-logo-wrap{width:34px;height:34px}.technology-marquee-logo{width:21px;height:21px}}
+      .technology-marquee-lane{overflow:hidden;outline:none}.technology-marquee-track{display:flex;width:max-content;will-change:transform}.technology-marquee-lane--forward .technology-marquee-track{animation:technology-marquee-forward 52s linear infinite}.technology-marquee-lane--reverse .technology-marquee-track{animation:technology-marquee-reverse 56s linear infinite}
+      .technology-marquee-group{display:flex;align-items:center;gap:17px;padding-right:17px}.technology-marquee-item{display:inline-flex;min-width:max-content;align-items:center;gap:11px;padding:9px 15px 9px 9px;border:1px solid color-mix(in srgb,var(--brand) 34%,var(--line));border-radius:999px;background:linear-gradient(135deg,var(--surface-strong),var(--surface));color:var(--text);font-family:"Space Grotesk",sans-serif;font-size:.78rem;font-weight:700;box-shadow:0 10px 28px rgba(0,0,0,.15);backdrop-filter:blur(14px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+      .technology-marquee-logo-wrap{display:grid;width:44px;height:44px;place-items:center;border:1px solid color-mix(in srgb,var(--brand) 40%,transparent);border-radius:50%;background:rgba(255,255,255,.055);box-shadow:inset 0 0 18px color-mix(in srgb,var(--brand) 12%,transparent)}.technology-marquee-logo{display:block;width:30px;height:30px;overflow:visible}.technology-marquee-item:hover{transform:translateY(-2px) scale(1.025);border-color:color-mix(in srgb,var(--brand) 68%,transparent);box-shadow:0 14px 34px rgba(0,0,0,.2),0 0 22px color-mix(in srgb,var(--brand) 15%,transparent)}
+      .technology-marquee-lane:hover .technology-marquee-track,.technology-marquee-lane:focus-within .technology-marquee-track{animation-play-state:paused}@keyframes technology-marquee-forward{to{transform:translateX(-50%)}}@keyframes technology-marquee-reverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+      @media(max-width:900px){.technology-marquee{gap:13px}.technology-marquee-group{gap:13px;padding-right:13px}.technology-marquee-item{font-size:.72rem}.technology-marquee-logo-wrap{width:39px;height:39px}.technology-marquee-logo{width:27px;height:27px}}
+      @media(max-width:680px){.technology-strip{padding-block:30px}.technology-marquee{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}.technology-marquee-lane--forward .technology-marquee-track{animation-duration:58s}.technology-marquee-lane--reverse .technology-marquee-track{animation-duration:62s}.technology-marquee-item{padding:7px 12px 7px 7px}.technology-marquee-logo-wrap{width:35px;height:35px}.technology-marquee-logo{width:24px;height:24px}}
       @media(prefers-reduced-motion:reduce){.technology-marquee{overflow:visible;mask-image:none;-webkit-mask-image:none}.technology-marquee-lane{overflow:visible}.technology-marquee-track{width:auto!important;animation:none!important}.technology-marquee-group{flex-wrap:wrap;justify-content:center}.technology-marquee-group[aria-hidden="true"]{display:none}.technology-marquee-item{white-space:normal}}
     `;
     document.head.appendChild(style);
