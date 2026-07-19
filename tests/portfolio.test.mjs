@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
@@ -8,6 +8,9 @@ const testDir = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(testDir, '..');
 const html = readFileSync(resolve(rootDir, 'index.html'), 'utf8');
 const animations = readFileSync(resolve(rootDir, 'site-animations.js'), 'utf8');
+const favicon = readFileSync(resolve(rootDir, 'favicon.svg'), 'utf8');
+const machinePath = resolve(rootDir, 'machine-background.js');
+const machine = existsSync(machinePath) ? readFileSync(machinePath, 'utf8') : '';
 
 test('homepage follows the approved results-first section order', () => {
   const ids = [
@@ -76,4 +79,34 @@ test('motion is progressive enhancement with reduced-motion protection', () => {
   assert.ok(animations.includes('.hero-visual'));
   assert.ok(animations.includes('.reveal'));
   assert.ok(animations.includes('.metric-value'));
+});
+
+test('homepage uses a restrained professional type and portrait scale', () => {
+  assert.match(html, /h1\s*\{[\s\S]*?font-size:\s*clamp\(3rem, 5vw, 4\.5rem\)/);
+  assert.match(html, /\.section-heading h2\s*\{[\s\S]*?font-size:\s*clamp\(2\.25rem, 4vw, 3\.5rem\)/);
+  assert.match(html, /\.metric-value\s*\{[\s\S]*?font-size:\s*clamp\(2\.75rem, 4vw, 3\.8rem\)/);
+  assert.match(html, /\.portrait-button\s*\{[\s\S]*?width:\s*min\(330px, 86%\)/);
+  assert.match(html, /@media \(max-width:\s*680px\)[\s\S]*?h1\s*\{[\s\S]*?clamp\(2\.4rem, 11vw, 3\.5rem\)/);
+  assert.match(html, /@media \(max-width:\s*680px\)[\s\S]*?\.portrait-button\s*\{[\s\S]*?width:\s*min\(240px, 78%\)/);
+});
+
+test('favicon is a readable BC monogram', () => {
+  assert.match(favicon, /<text[^>]*>BC<\/text>/);
+  assert.match(favicon, /<rect[^>]+rx="28"/);
+});
+
+test('homepage integrates a decorative futuristic machine layer', () => {
+  assert.match(html, /<canvas[^>]+id="machineBackground"[^>]+class="machine-background"[^>]+aria-hidden="true"/i);
+  assert.match(html, /\.machine-background\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?pointer-events:\s*none;/);
+  assert.match(html, /src="machine-background\.js\?v=20260719-professional"/);
+});
+
+test('machine motion is subtle, responsive, and progressively enhanced', () => {
+  assert.ok(machine.includes('prefers-reduced-motion: reduce'));
+  assert.ok(machine.includes('(pointer: coarse)'));
+  assert.ok(machine.includes('pointermove'));
+  assert.ok(machine.includes('requestAnimationFrame'));
+  assert.ok(machine.includes('visibilitychange'));
+  assert.match(machine, /Math\.min\(window\.devicePixelRatio \|\| 1, 2\)/);
+  assert.match(machine, /current\.x \+= \(target\.x - current\.x\) \* 0\.045/);
 });
