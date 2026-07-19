@@ -74,7 +74,7 @@ test('photo-driven theme switching remains persistent and visible at load', () =
 
 test('motion is progressive enhancement with reduced-motion protection', () => {
   assert.match(html, /src="site-animations\.js\?v=20260719-results"/);
-  assert.ok(animations.includes("prefers-reduced-motion: reduce"));
+  assert.ok(animations.includes('prefers-reduced-motion: reduce'));
   assert.ok(animations.includes('.hero-copy'));
   assert.ok(animations.includes('.hero-visual'));
   assert.ok(animations.includes('.reveal'));
@@ -148,4 +148,21 @@ test('delivery architecture animation is theme-aware and progressively enhanced'
   assert.ok(animations.includes('visibilitychange'));
   assert.ok(animations.includes('is-flowing'));
   assert.ok(animations.indexOf('setupArchitectureFlow') < animations.indexOf('if (!window.gsap) return'));
+});
+
+test('case studies progressively enhance into five distinct dashboard previews', () => {
+  const caseSection = html.slice(html.indexOf('id="case-studies"'), html.indexOf('id="process"'));
+  assert.equal((caseSection.match(/class="case-card reveal"/g) || []).length, 5);
+  assert.ok(animations.includes('setupCaseStudyVisuals'));
+  for (const preview of [
+    'case-preview-reporting',
+    'case-preview-performance',
+    'case-preview-automation',
+    'case-preview-ai',
+    'case-preview-qa'
+  ]) {
+    assert.ok(animations.includes(preview), `missing ${preview}`);
+  }
+  assert.ok(animations.includes('@media(prefers-reduced-motion:reduce)'));
+  assert.ok(animations.indexOf('setupCaseStudyVisuals') < animations.indexOf('if (!window.gsap) return'));
 });
