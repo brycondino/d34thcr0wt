@@ -114,6 +114,11 @@ test('machine motion is subtle, responsive, and progressively enhanced', () => {
 test('about section replaces the repeated portrait with a semantic delivery architecture', () => {
   const about = html.slice(html.indexOf('id="about"'), html.indexOf('id="results"'));
   assert.doesNotMatch(about, /<img\b/i);
+  const copyPosition = about.indexOf('class="about-copy reveal"');
+  const architecturePosition = about.indexOf('class="architecture-card reveal"');
+  assert.ok(copyPosition >= 0, 'About copy card is missing');
+  assert.ok(architecturePosition > copyPosition, 'About copy must appear before the architecture');
+  assert.match(html, /\.about-grid\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0, 1\.14fr\) minmax\(0, 0\.86fr\)/);
   assert.match(about, /<div[^>]+class="architecture-card reveal"/i);
   assert.match(about, /class="architecture-card reveal"[^>]+role="group"[^>]+aria-labelledby="architectureTitle"/i);
   assert.match(about, /<ol[^>]+class="architecture-nodes"[^>]+aria-label="Delivery architecture stages"/i);
