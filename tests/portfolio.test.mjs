@@ -70,6 +70,7 @@ test('photo-driven theme switching remains persistent and visible at load', () =
 });
 
 test('motion is progressive enhancement with reduced-motion protection', () => {
+  assert.match(html, /src="site-animations\.js\?v=20260719-results"/);
   assert.ok(animations.includes("prefers-reduced-motion: reduce"));
   assert.ok(animations.includes('.hero-copy'));
   assert.ok(animations.includes('.hero-visual'));
