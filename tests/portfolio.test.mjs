@@ -110,3 +110,36 @@ test('machine motion is subtle, responsive, and progressively enhanced', () => {
   assert.match(machine, /Math\.min\(window\.devicePixelRatio \|\| 1, 2\)/);
   assert.match(machine, /current\.x \+= \(target\.x - current\.x\) \* 0\.045/);
 });
+
+test('about section replaces the repeated portrait with a semantic delivery architecture', () => {
+  const about = html.slice(html.indexOf('id="about"'), html.indexOf('id="results"'));
+  assert.doesNotMatch(about, /<img\b/i);
+  assert.match(about, /<div[^>]+class="architecture-card reveal"/i);
+  assert.match(about, /<ol[^>]+class="architecture-nodes"[^>]+aria-label="Delivery architecture stages"/i);
+  assert.match(about, /<svg[^>]+class="architecture-connectors"[^>]+aria-hidden="true"/i);
+
+  const stages = [
+    'Business Need',
+    'Data &amp; Backend',
+    'Automation &amp; AI',
+    'QA &amp; Validation',
+    'Reliable Outcome'
+  ];
+  let previous = -1;
+  for (const stage of stages) {
+    const position = about.indexOf(stage);
+    assert.ok(position > previous, `${stage} is missing or out of order`);
+    previous = position;
+  }
+});
+
+test('delivery architecture animation is theme-aware and progressively enhanced', () => {
+  assert.match(html, /--architecture-line:\s*rgba\(/);
+  assert.match(html, /html\.bright-mode\s*\{[\s\S]*?--architecture-line:\s*rgba\(/);
+  assert.match(html, /\.architecture-card\.is-flowing[\s\S]*?10s linear infinite/);
+  assert.match(html, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.architecture-signal[\s\S]*?animation:\s*none/);
+  assert.ok(animations.includes('IntersectionObserver'));
+  assert.ok(animations.includes('visibilitychange'));
+  assert.ok(animations.includes('is-flowing'));
+  assert.ok(animations.indexOf('setupArchitectureFlow') < animations.indexOf('if (!window.gsap) return'));
+});
