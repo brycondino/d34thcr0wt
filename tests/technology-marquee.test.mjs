@@ -7,22 +7,31 @@ import { dirname, resolve } from 'node:path';
 const testDir = dirname(fileURLToPath(import.meta.url));
 const animations = readFileSync(resolve(testDir, '..', 'site-animations.js'), 'utf8');
 
-test('technology strip becomes an accessible two-lane CV tools marquee', () => {
+test('technology strip becomes an accessible two-lane logo marquee', () => {
   assert.ok(animations.includes('setupTechnologyMarquee'));
   assert.ok(animations.includes('technology-marquee-lane--forward'));
   assert.ok(animations.includes('technology-marquee-lane--reverse'));
   assert.ok(animations.includes('technology-marquee-forward'));
   assert.ok(animations.includes('technology-marquee-reverse'));
   assert.ok(animations.includes('aria-hidden="true"'));
+  assert.ok(animations.includes('cdn.simpleicons.org'));
+  assert.ok(animations.includes('<img class="technology-marquee-logo"'));
+  assert.ok(animations.includes('onerror="this.closest'));
 
   for (const tool of [
-    'Oracle', 'MySQL', 'PostgreSQL', 'PL/SQL', 'TOAD for Oracle',
-    'Python', 'Unix Shell', 'Perl', 'AWS', 'Lambda', 'API Gateway',
-    'CloudWatch', 'Secrets Manager', 'Git', 'JIRA', 'Postman',
-    'Cypress', 'CircleCI', 'Oracle APEX', 'Confluence', 'Linux',
-    'Windows', 'Agile', 'Scrum', 'SDLC'
+    'ChatGPT', 'Claude', 'DeepSeek', 'GitHub Copilot', 'n8n', 'Supabase',
+    'Vercel', 'Resend', 'Firebase', 'Oracle', 'Oracle APEX', 'AWS',
+    'MySQL', 'PostgreSQL', 'Python', 'Git', 'GitHub', 'Jira', 'Postman',
+    'Cypress', 'CircleCI', 'Confluence', 'Linux', 'Windows'
   ]) {
     assert.ok(animations.includes(tool), `missing ${tool}`);
+  }
+
+  for (const removedTool of [
+    'PL/SQL', 'TOAD for Oracle', 'Data Modelling', 'Data Lineage',
+    'Workflow Automation', 'Scrum', 'SDLC', 'WinSCP'
+  ]) {
+    assert.ok(!animations.includes(`['${removedTool}'`), `unexpected text-only tool ${removedTool}`);
   }
 
   assert.ok(animations.includes(':hover .technology-marquee-track'));
