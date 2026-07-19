@@ -59,25 +59,38 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!strip || !list) return;
 
     const laneOne = [
-      ['Oracle', 'OR', 'oracle'], ['MySQL', 'MY', 'mysql'], ['PostgreSQL', 'PG', 'postgresql'],
-      ['SQL', 'SQL'], ['PL/SQL', 'PL'], ['TOAD for Oracle', 'TOAD'], ['SQL Developer', 'DEV'],
-      ['MySQL Workbench', 'MW'], ['pgAdmin', 'PGA'], ['ETL', 'ETL'], ['Data Modelling', 'DM'],
-      ['Data Lineage', 'DL'], ['Python', 'PY', 'python'], ['Unix Shell', 'SH'], ['Perl', 'PE']
+      ['ChatGPT', 'openai', '10A37F'],
+      ['Claude', 'anthropic', 'D97757'],
+      ['DeepSeek', 'deepseek', '4D6BFE'],
+      ['GitHub Copilot', 'githubcopilot', 'FFFFFF'],
+      ['n8n', 'n8n', 'EA4B71'],
+      ['Supabase', 'supabase', '3FCF8E'],
+      ['Vercel', 'vercel', 'FFFFFF'],
+      ['Resend', 'resend', 'FFFFFF'],
+      ['Firebase', 'firebase', 'FFCA28'],
+      ['Oracle', 'oracle', 'F80000'],
+      ['Oracle APEX', 'oracleapex', 'FFFFFF'],
+      ['AWS', 'amazonwebservices', 'FF9900']
     ];
     const laneTwo = [
-      ['AWS', 'AWS', 'aws'], ['Lambda', 'λ', 'aws'], ['RDS', 'RDS', 'aws'], ['S3', 'S3', 'aws'],
-      ['EC2', 'EC2', 'aws'], ['API Gateway', 'API', 'aws'], ['EventBridge', 'EB', 'aws'],
-      ['CloudWatch', 'CW', 'aws'], ['Secrets Manager', 'SM', 'aws'], ['API Integration', 'API'],
-      ['Workflow Automation', 'WA'], ['Git', 'GIT', 'git'], ['JIRA', 'JR'], ['Postman', 'PM', 'postman'],
-      ['WinSCP', 'WS'], ['Cypress', 'CY', 'cypress'], ['CircleCI', 'CI'], ['Oracle APEX', 'AX', 'apex'],
-      ['Confluence', 'CF'], ['UNIX', 'UX'], ['Linux', 'LX'], ['Windows', 'WIN'], ['Agile', 'AG'],
-      ['Scrum', 'SC'], ['SDLC', 'SDLC']
+      ['MySQL', 'mysql', '4479A1'],
+      ['PostgreSQL', 'postgresql', '4169E1'],
+      ['Python', 'python', '3776AB'],
+      ['Git', 'git', 'F05032'],
+      ['GitHub', 'github', 'FFFFFF'],
+      ['Jira', 'jira', '0052CC'],
+      ['Postman', 'postman', 'FF6C37'],
+      ['Cypress', 'cypress', '69D3A7'],
+      ['CircleCI', 'circleci', 'FFFFFF'],
+      ['Confluence', 'confluence', '172B4D'],
+      ['Linux', 'linux', 'FCC624'],
+      ['Windows', 'windows11', '0078D4']
     ];
 
     function renderItems(tools) {
       return tools.map(function (tool) {
-        const brandClass = tool[2] ? ` technology-marquee-icon--${tool[2]}` : '';
-        return `<span class="technology-marquee-item"><span class="technology-marquee-icon${brandClass}" aria-hidden="true">${tool[1]}</span><span class="technology-marquee-name">${tool[0]}</span></span>`;
+        const logoUrl = `https://cdn.simpleicons.org/${tool[1]}/${tool[2]}`;
+        return `<span class="technology-marquee-item"><span class="technology-marquee-logo-wrap" aria-hidden="true"><img class="technology-marquee-logo" src="${logoUrl}" alt="" loading="lazy" decoding="async" onerror="this.closest('.technology-marquee-item').remove()"></span><span class="technology-marquee-name">${tool[0]}</span></span>`;
       }).join('');
     }
 
@@ -94,23 +107,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const style = document.createElement('style');
     style.textContent = `
-      .technology-strip{overflow:hidden;padding:34px 0 32px}
+      .technology-strip{overflow:hidden;padding:36px 0 34px}
       .technology-strip .container{width:100%;max-width:none}
-      .technology-label{margin-bottom:22px}
-      .technology-marquee{display:grid;gap:14px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+      .technology-label{margin-bottom:24px}
+      .technology-marquee{display:grid;gap:16px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
       .technology-marquee-lane{overflow:hidden;outline:none}
       .technology-marquee-track{display:flex;width:max-content;will-change:transform}
-      .technology-marquee-lane--forward .technology-marquee-track{animation:technology-marquee-forward 44s linear infinite}
-      .technology-marquee-lane--reverse .technology-marquee-track{animation:technology-marquee-reverse 48s linear infinite}
-      .technology-marquee-group{display:flex;align-items:center;gap:16px;padding-right:16px}
-      .technology-marquee-item{display:inline-flex;min-width:max-content;align-items:center;gap:10px;padding:8px 14px 8px 8px;border:1px solid var(--line);border-radius:999px;background:linear-gradient(135deg,var(--surface-strong),var(--surface));color:var(--muted);font-family:"Space Grotesk",sans-serif;font-size:.76rem;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.12);backdrop-filter:blur(12px)}
-      .technology-marquee-icon{display:grid;width:34px;height:34px;place-items:center;border:1px solid rgba(73,215,255,.28);border-radius:50%;background:var(--blue-wash);color:var(--cyan);font-size:.48rem;font-weight:800;letter-spacing:-.03em;box-shadow:inset 0 0 14px rgba(73,215,255,.05)}
-      .technology-marquee-icon--oracle{border-color:rgba(255,72,72,.45);color:#ff6464}.technology-marquee-icon--aws{border-color:rgba(255,169,38,.48);color:#ffb23d}.technology-marquee-icon--python{border-color:rgba(255,215,80,.48);color:#ffd34e}.technology-marquee-icon--git{border-color:rgba(240,80,50,.48);color:#f66a4a}.technology-marquee-icon--postgresql{border-color:rgba(83,154,219,.5);color:#66a9e8}.technology-marquee-icon--mysql{border-color:rgba(0,156,190,.5);color:#32c2dc}.technology-marquee-icon--postman{border-color:rgba(255,108,55,.5);color:#ff7d4d}.technology-marquee-icon--cypress{border-color:rgba(86,230,165,.45);color:var(--green)}.technology-marquee-icon--apex{border-color:rgba(45,140,255,.48);color:var(--primary)}
+      .technology-marquee-lane--forward .technology-marquee-track{animation:technology-marquee-forward 42s linear infinite}
+      .technology-marquee-lane--reverse .technology-marquee-track{animation:technology-marquee-reverse 46s linear infinite}
+      .technology-marquee-group{display:flex;align-items:center;gap:17px;padding-right:17px}
+      .technology-marquee-item{display:inline-flex;min-width:max-content;align-items:center;gap:11px;padding:9px 15px 9px 9px;border:1px solid var(--line);border-radius:999px;background:linear-gradient(135deg,var(--surface-strong),var(--surface));color:var(--text);font-family:"Space Grotesk",sans-serif;font-size:.78rem;font-weight:700;box-shadow:0 10px 28px rgba(0,0,0,.15);backdrop-filter:blur(14px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+      .technology-marquee-logo-wrap{display:grid;width:42px;height:42px;place-items:center;border:1px solid rgba(73,215,255,.2);border-radius:50%;background:rgba(255,255,255,.06);box-shadow:inset 0 0 18px rgba(73,215,255,.05)}
+      .technology-marquee-logo{display:block;width:25px;height:25px;object-fit:contain}
+      .technology-marquee-item:hover{transform:translateY(-2px) scale(1.025);border-color:rgba(73,215,255,.42);box-shadow:0 14px 34px rgba(0,0,0,.2),0 0 22px rgba(73,215,255,.08)}
       .technology-marquee-lane:hover .technology-marquee-track,.technology-marquee-lane:focus-within .technology-marquee-track{animation-play-state:paused}
       @keyframes technology-marquee-forward{to{transform:translateX(-50%)}}
       @keyframes technology-marquee-reverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-      @media(max-width:900px){.technology-marquee{gap:12px}.technology-marquee-group{gap:12px;padding-right:12px}.technology-marquee-item{font-size:.7rem}.technology-marquee-icon{width:31px;height:31px}}
-      @media(max-width:680px){.technology-strip{padding-block:29px}.technology-marquee{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}.technology-marquee-lane--forward .technology-marquee-track{animation-duration:50s}.technology-marquee-lane--reverse .technology-marquee-track{animation-duration:54s}}
+      @media(max-width:900px){.technology-marquee{gap:13px}.technology-marquee-group{gap:13px;padding-right:13px}.technology-marquee-item{font-size:.72rem}.technology-marquee-logo-wrap{width:38px;height:38px}.technology-marquee-logo{width:23px;height:23px}}
+      @media(max-width:680px){.technology-strip{padding-block:30px}.technology-marquee{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}.technology-marquee-lane--forward .technology-marquee-track{animation-duration:48s}.technology-marquee-lane--reverse .technology-marquee-track{animation-duration:52s}.technology-marquee-item{padding:7px 12px 7px 7px}.technology-marquee-logo-wrap{width:34px;height:34px}.technology-marquee-logo{width:21px;height:21px}}
       @media(prefers-reduced-motion:reduce){.technology-marquee{overflow:visible;mask-image:none;-webkit-mask-image:none}.technology-marquee-lane{overflow:visible}.technology-marquee-track{width:auto!important;animation:none!important}.technology-marquee-group{flex-wrap:wrap;justify-content:center}.technology-marquee-group[aria-hidden="true"]{display:none}.technology-marquee-item{white-space:normal}}
     `;
     document.head.appendChild(style);
