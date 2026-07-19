@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
       `<div class="case-preview case-preview-performance" aria-hidden="true"><div class="preview-top"><span class="preview-title">Query performance</span><span class="preview-live">Optimized</span></div><div class="preview-kpis"><span class="preview-kpi"><span class="preview-label">Before</span><span class="preview-value">8.4s</span></span><span class="preview-kpi"><span class="preview-label">After</span><span class="preview-value">3.1s</span></span><span class="preview-kpi"><span class="preview-label">Gain</span><span class="preview-value">63%</span></span></div><div class="preview-panel"><span class="preview-label">Execution timeline</span><div class="perf-track"></div></div></div>`,
       `<div class="case-preview case-preview-automation" aria-hidden="true"><div class="preview-top"><span class="preview-title">Serverless pipeline</span><span class="preview-live">Running</span></div><div class="flow"><span class="flow-node">EVENT<br>TRIGGER</span><span class="flow-node">LAMBDA<br>PROCESS</span><span class="flow-node">RDS / S3<br>STORE</span><span class="flow-node">OUTPUT<br>READY</span></div><div class="preview-kpis"><span class="preview-kpi"><span class="preview-label">Processed</span><span class="preview-value">12.4k</span></span><span class="preview-kpi"><span class="preview-label">Failures</span><span class="preview-value">0.2%</span></span><span class="preview-kpi"><span class="preview-label">Manual</span><span class="preview-value">-70%</span></span></div></div>`,
       `<div class="case-preview case-preview-ai" aria-hidden="true"><div class="preview-top"><span class="preview-title">Grounded AI workflow</span><span class="preview-live">Human reviewed</span></div><div class="ai-stack"><div class="ai-step"><strong>01</strong><span>Business prompt</span><em>READY</em></div><div class="ai-step"><strong>02</strong><span>Context retrieval</span><em>VALID</em></div><div class="ai-step"><strong>03</strong><span>Analysis & recommendation</span><em>92%</em></div><div class="ai-step"><strong>04</strong><span>Reviewable action plan</span><em>TRACE</em></div></div></div>`,
-      `<div class="case-preview case-preview-qa" aria-hidden="true"><div class="preview-top"><span class="preview-title">Release validation</span><span class="preview-live">Suite active</span></div><div class="preview-row"><span class="preview-label">Regression coverage</span><span class="preview-value">88%</span></div><div class="coverage"><i></i></div><div class="test-grid">${Array.from({length:15},function(_,i){return `<span class="test-cell">${i%4===3?'●':'✓'}</span>`;}).join('')}</div></div>`
+      `<div class="case-preview case-preview-qa" aria-hidden="true"><div class="preview-top"><span class="preview-title">Release validation</span><span class="preview-live">Suite active</span></div><div class="preview-row"><span class="preview-label">Regression coverage</span><span class="preview-value">88%</span></div><div class="coverage"><i></i></div><div class="test-grid">${Array.from({ length: 15 }, function (_, index) { return `<span class="test-cell">${index % 4 === 3 ? '●' : '✓'}</span>`; }).join('')}</div></div>`
     ];
     cards.forEach(function (card, index) {
       const art = card.querySelector('.case-art');
@@ -57,15 +57,62 @@ document.addEventListener('DOMContentLoaded', function () {
     const strip = document.querySelector('.technology-strip');
     const list = strip && strip.querySelector('.technology-list');
     if (!strip || !list) return;
-    const tools = ['Oracle','MySQL','PostgreSQL','SQL','PL/SQL','Python','Unix Shell','Perl','ETL','Data Modelling','AWS Lambda','Amazon RDS','Amazon S3','Amazon EC2','API Gateway','EventBridge','CloudWatch','Secrets Manager','Git','JIRA','Postman','WinSCP','TOAD for Oracle','SQL Developer','MySQL Workbench','pgAdmin','Oracle APEX','Oracle EBS R12','MuleSoft','Confluence','FTP / SFTP','UNIX','Linux','Windows'];
-    function initials(name){return name.split(/\s|\//).filter(Boolean).map(function(part){return part[0];}).join('').slice(0,3).toUpperCase();}
-    const items = tools.map(function(tool){return '<span class="technology-marquee-item"><span class="technology-marquee-icon" aria-hidden="true">'+initials(tool)+'</span><span>'+tool+'</span></span>';}).join('');
-    const track = document.createElement('div');
-    track.className = 'technology-marquee-track';
-    track.innerHTML = '<div class="technology-marquee-group">'+items+'</div><div class="technology-marquee-group" aria-hidden="true">'+items+'</div>';
-    list.replaceWith(track);
+
+    const laneOne = [
+      ['Oracle', 'OR', 'oracle'], ['MySQL', 'MY', 'mysql'], ['PostgreSQL', 'PG', 'postgresql'],
+      ['SQL', 'SQL'], ['PL/SQL', 'PL'], ['TOAD for Oracle', 'TOAD'], ['SQL Developer', 'DEV'],
+      ['MySQL Workbench', 'MW'], ['pgAdmin', 'PGA'], ['ETL', 'ETL'], ['Data Modelling', 'DM'],
+      ['Data Lineage', 'DL'], ['Python', 'PY', 'python'], ['Unix Shell', 'SH'], ['Perl', 'PE']
+    ];
+    const laneTwo = [
+      ['AWS', 'AWS', 'aws'], ['Lambda', 'λ', 'aws'], ['RDS', 'RDS', 'aws'], ['S3', 'S3', 'aws'],
+      ['EC2', 'EC2', 'aws'], ['API Gateway', 'API', 'aws'], ['EventBridge', 'EB', 'aws'],
+      ['CloudWatch', 'CW', 'aws'], ['Secrets Manager', 'SM', 'aws'], ['API Integration', 'API'],
+      ['Workflow Automation', 'WA'], ['Git', 'GIT', 'git'], ['JIRA', 'JR'], ['Postman', 'PM', 'postman'],
+      ['WinSCP', 'WS'], ['Cypress', 'CY', 'cypress'], ['CircleCI', 'CI'], ['Oracle APEX', 'AX', 'apex'],
+      ['Confluence', 'CF'], ['UNIX', 'UX'], ['Linux', 'LX'], ['Windows', 'WIN'], ['Agile', 'AG'],
+      ['Scrum', 'SC'], ['SDLC', 'SDLC']
+    ];
+
+    function renderItems(tools) {
+      return tools.map(function (tool) {
+        const brandClass = tool[2] ? ` technology-marquee-icon--${tool[2]}` : '';
+        return `<span class="technology-marquee-item"><span class="technology-marquee-icon${brandClass}" aria-hidden="true">${tool[1]}</span><span class="technology-marquee-name">${tool[0]}</span></span>`;
+      }).join('');
+    }
+
+    function renderLane(tools, directionClass) {
+      const items = renderItems(tools);
+      return `<div class="technology-marquee-lane ${directionClass}" tabindex="0"><div class="technology-marquee-track"><div class="technology-marquee-group">${items}</div><div class="technology-marquee-group" aria-hidden="true">${items}</div></div></div>`;
+    }
+
+    const marquee = document.createElement('div');
+    marquee.className = 'technology-marquee';
+    marquee.setAttribute('aria-label', 'Technical tools and platforms');
+    marquee.innerHTML = renderLane(laneOne, 'technology-marquee-lane--forward') + renderLane(laneTwo, 'technology-marquee-lane--reverse');
+    list.replaceWith(marquee);
+
     const style = document.createElement('style');
-    style.textContent = `.technology-strip{overflow:hidden;padding:34px 0 30px}.technology-strip .container{width:100%;max-width:none}.technology-label{margin-bottom:20px}.technology-marquee-track{display:flex;width:max-content;will-change:transform;animation:technology-marquee 52s linear infinite}.technology-marquee-group{display:flex;align-items:center;gap:18px;padding-right:18px}.technology-marquee-item{display:inline-flex;min-width:max-content;align-items:center;gap:9px;padding:8px 13px 8px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-family:"Space Grotesk",sans-serif;font-size:.75rem;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.12)}.technology-marquee-icon{display:grid;width:31px;height:31px;place-items:center;border:1px solid rgba(73,215,255,.27);border-radius:50%;background:var(--blue-wash);color:var(--cyan);font-size:.48rem;font-weight:800}.technology-marquee-track:hover{animation-play-state:paused}@keyframes technology-marquee{to{transform:translateX(-50%)}}@media(max-width:680px){.technology-marquee-track{animation-duration:38s}.technology-marquee-group{gap:12px;padding-right:12px}}@media(prefers-reduced-motion:reduce){.technology-marquee-track{width:auto;animation:none;flex-wrap:wrap;justify-content:center}.technology-marquee-group{flex-wrap:wrap;justify-content:center}.technology-marquee-group[aria-hidden="true"]{display:none}}`;
+    style.textContent = `
+      .technology-strip{overflow:hidden;padding:34px 0 32px}
+      .technology-strip .container{width:100%;max-width:none}
+      .technology-label{margin-bottom:22px}
+      .technology-marquee{display:grid;gap:14px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+      .technology-marquee-lane{overflow:hidden;outline:none}
+      .technology-marquee-track{display:flex;width:max-content;will-change:transform}
+      .technology-marquee-lane--forward .technology-marquee-track{animation:technology-marquee-forward 44s linear infinite}
+      .technology-marquee-lane--reverse .technology-marquee-track{animation:technology-marquee-reverse 48s linear infinite}
+      .technology-marquee-group{display:flex;align-items:center;gap:16px;padding-right:16px}
+      .technology-marquee-item{display:inline-flex;min-width:max-content;align-items:center;gap:10px;padding:8px 14px 8px 8px;border:1px solid var(--line);border-radius:999px;background:linear-gradient(135deg,var(--surface-strong),var(--surface));color:var(--muted);font-family:"Space Grotesk",sans-serif;font-size:.76rem;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.12);backdrop-filter:blur(12px)}
+      .technology-marquee-icon{display:grid;width:34px;height:34px;place-items:center;border:1px solid rgba(73,215,255,.28);border-radius:50%;background:var(--blue-wash);color:var(--cyan);font-size:.48rem;font-weight:800;letter-spacing:-.03em;box-shadow:inset 0 0 14px rgba(73,215,255,.05)}
+      .technology-marquee-icon--oracle{border-color:rgba(255,72,72,.45);color:#ff6464}.technology-marquee-icon--aws{border-color:rgba(255,169,38,.48);color:#ffb23d}.technology-marquee-icon--python{border-color:rgba(255,215,80,.48);color:#ffd34e}.technology-marquee-icon--git{border-color:rgba(240,80,50,.48);color:#f66a4a}.technology-marquee-icon--postgresql{border-color:rgba(83,154,219,.5);color:#66a9e8}.technology-marquee-icon--mysql{border-color:rgba(0,156,190,.5);color:#32c2dc}.technology-marquee-icon--postman{border-color:rgba(255,108,55,.5);color:#ff7d4d}.technology-marquee-icon--cypress{border-color:rgba(86,230,165,.45);color:var(--green)}.technology-marquee-icon--apex{border-color:rgba(45,140,255,.48);color:var(--primary)}
+      .technology-marquee-lane:hover .technology-marquee-track,.technology-marquee-lane:focus-within .technology-marquee-track{animation-play-state:paused}
+      @keyframes technology-marquee-forward{to{transform:translateX(-50%)}}
+      @keyframes technology-marquee-reverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+      @media(max-width:900px){.technology-marquee{gap:12px}.technology-marquee-group{gap:12px;padding-right:12px}.technology-marquee-item{font-size:.7rem}.technology-marquee-icon{width:31px;height:31px}}
+      @media(max-width:680px){.technology-strip{padding-block:29px}.technology-marquee{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}.technology-marquee-lane--forward .technology-marquee-track{animation-duration:50s}.technology-marquee-lane--reverse .technology-marquee-track{animation-duration:54s}}
+      @media(prefers-reduced-motion:reduce){.technology-marquee{overflow:visible;mask-image:none;-webkit-mask-image:none}.technology-marquee-lane{overflow:visible}.technology-marquee-track{width:auto!important;animation:none!important}.technology-marquee-group{flex-wrap:wrap;justify-content:center}.technology-marquee-group[aria-hidden="true"]{display:none}.technology-marquee-item{white-space:normal}}
+    `;
     document.head.appendChild(style);
   }
 
@@ -79,12 +126,22 @@ document.addEventListener('DOMContentLoaded', function () {
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
   const hasResultsHomepage = Boolean(document.querySelector('.hero-copy'));
   if (hasResultsHomepage) {
-    gsap.from('.site-header',{y:-18,opacity:0,duration:.55,ease:'power3.out'});
-    gsap.timeline({defaults:{ease:'power3.out'}}).from('.hero-copy .status-pill',{y:14,opacity:0,duration:.38}).from('.hero-copy .role-banner',{y:12,opacity:0,duration:.35},'-=.18').from('.hero-copy h1',{y:28,opacity:0,duration:.65},'-=.14').from('.hero-copy .hero-lead',{y:18,opacity:0,duration:.48},'-=.3').from('.hero-copy .hero-actions .button',{y:14,opacity:0,duration:.35,stagger:.06},'-=.22').from('.hero-copy .hero-proof li',{y:9,opacity:0,duration:.3,stagger:.05},'-=.16');
-    gsap.from('.hero-visual',{x:34,scale:.98,duration:.7,ease:'power3.out',clearProps:'transform'});
-    gsap.from('.hero-visual .floating-result',{y:13,opacity:0,duration:.42,delay:.28,stagger:.08,ease:'power3.out'});
-    document.querySelectorAll('.reveal').forEach(function(element){gsap.from(element,{y:28,opacity:0,duration:.55,ease:'power3.out',scrollTrigger:window.ScrollTrigger?{trigger:element,start:'top 88%',toggleActions:'play none none none'}:null});});
-    document.querySelectorAll('.metric-value').forEach(function(element){gsap.from(element,{y:14,scale:.96,opacity:0,duration:.42,ease:'back.out(1.5)',scrollTrigger:window.ScrollTrigger?{trigger:element,start:'top 90%',toggleActions:'play none none none'}:null});});
+    gsap.from('.site-header', { y: -18, opacity: 0, duration: 0.55, ease: 'power3.out' });
+    gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .from('.hero-copy .status-pill', { y: 14, opacity: 0, duration: 0.38 })
+      .from('.hero-copy .role-banner', { y: 12, opacity: 0, duration: 0.35 }, '-=0.18')
+      .from('.hero-copy h1', { y: 28, opacity: 0, duration: 0.65 }, '-=0.14')
+      .from('.hero-copy .hero-lead', { y: 18, opacity: 0, duration: 0.48 }, '-=0.3')
+      .from('.hero-copy .hero-actions .button', { y: 14, opacity: 0, duration: 0.35, stagger: 0.06 }, '-=0.22')
+      .from('.hero-copy .hero-proof li', { y: 9, opacity: 0, duration: 0.3, stagger: 0.05 }, '-=0.16');
+    gsap.from('.hero-visual', { x: 34, scale: 0.98, duration: 0.7, ease: 'power3.out', clearProps: 'transform' });
+    gsap.from('.hero-visual .floating-result', { y: 13, opacity: 0, duration: 0.42, delay: 0.28, stagger: 0.08, ease: 'power3.out' });
+    document.querySelectorAll('.reveal').forEach(function (element) {
+      gsap.from(element, { y: 28, opacity: 0, duration: 0.55, ease: 'power3.out', scrollTrigger: window.ScrollTrigger ? { trigger: element, start: 'top 88%', toggleActions: 'play none none none' } : null });
+    });
+    document.querySelectorAll('.metric-value').forEach(function (element) {
+      gsap.from(element, { y: 14, scale: 0.96, opacity: 0, duration: 0.42, ease: 'back.out(1.5)', scrollTrigger: window.ScrollTrigger ? { trigger: element, start: 'top 90%', toggleActions: 'play none none none' } : null });
+    });
   }
-  window.addEventListener('load',function(){if(window.ScrollTrigger)ScrollTrigger.refresh();});
+  window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
 });
