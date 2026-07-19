@@ -1,4 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
+  function setupArchitectureFlow() {
+    const card = document.querySelector('.architecture-card');
+    if (!card) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    let isNearViewport = false;
+
+    function syncFlowState() {
+      card.classList.toggle('is-flowing', isNearViewport && !document.hidden);
+    }
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(function (entries) {
+        isNearViewport = entries.some(function (entry) {
+          return entry.isIntersecting;
+        });
+        syncFlowState();
+      }, { rootMargin: '120px 0px' });
+
+      observer.observe(card);
+    } else {
+      isNearViewport = true;
+      syncFlowState();
+    }
+
+    document.addEventListener('visibilitychange', syncFlowState);
+  }
+
+  setupArchitectureFlow();
+
   if (!window.gsap) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 

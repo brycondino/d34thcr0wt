@@ -36,6 +36,9 @@
       --shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
       --header: rgba(8, 11, 18, 0.8);
       --machine-opacity: 0.32;
+      --architecture-line: rgba(73, 215, 255, 0.25);
+      --architecture-soft: rgba(45, 140, 255, 0.12);
+      --architecture-glow: rgba(73, 215, 255, 0.16);
       --max-width: 1220px;
     }
 
@@ -57,6 +60,9 @@
       --shadow: 0 24px 65px rgba(53, 83, 119, 0.16);
       --header: rgba(245, 248, 252, 0.88);
       --machine-opacity: 0.19;
+      --architecture-line: rgba(0, 112, 208, 0.3);
+      --architecture-soft: rgba(8, 121, 223, 0.09);
+      --architecture-glow: rgba(8, 121, 223, 0.11);
     }
 
     *, *::before, *::after {
@@ -689,7 +695,7 @@
       gap: 22px;
     }
 
-    .about-photo,
+    .architecture-card,
     .about-copy,
     .metric-card,
     .process-card,
@@ -702,52 +708,199 @@
       box-shadow: var(--shadow);
     }
 
-    .about-photo {
+    .architecture-card {
       position: relative;
       min-height: 520px;
+      padding: 26px;
       overflow: hidden;
       border-radius: 28px;
+      isolation: isolate;
     }
 
-    .about-photo img {
+    .architecture-grid {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        radial-gradient(circle at 70% 38%, var(--architecture-glow), transparent 44%);
+      background-size: 38px 38px, 38px 38px, auto;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), transparent 94%);
+      opacity: 0.32;
+    }
+
+    .architecture-header {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .architecture-kicker,
+    .architecture-live {
+      color: var(--cyan);
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .architecture-status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-right: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(86, 230, 165, 0.08);
+    }
+
+    .architecture-header h3 {
+      margin: 8px 0 0;
+      font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+      letter-spacing: -0.035em;
+    }
+
+    .architecture-live {
+      padding: 7px 9px;
+      border: 1px solid var(--architecture-line);
+      border-radius: 999px;
+      background: var(--architecture-soft);
+      white-space: nowrap;
+    }
+
+    .architecture-flow {
+      position: relative;
+      min-height: 390px;
+      margin-top: 15px;
+    }
+
+    .architecture-connectors {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: center 23%;
+      overflow: visible;
     }
 
-    .about-photo::after {
-      position: absolute;
-      inset: auto 0 0;
-      height: 44%;
-      background: linear-gradient(transparent, rgba(8, 11, 18, 0.85));
-      content: "";
+    .architecture-track,
+    .architecture-signal {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    .photo-caption {
-      position: absolute;
+    .architecture-track {
+      stroke: var(--architecture-line);
+      stroke-width: 1.3;
+    }
+
+    .architecture-signal {
+      stroke: var(--cyan);
+      stroke-width: 3;
+      stroke-dasharray: 0.04 0.96;
+      stroke-dashoffset: 0;
+      filter: drop-shadow(0 0 7px var(--cyan));
+      opacity: 0;
+    }
+
+    .architecture-nodes {
+      position: relative;
       z-index: 2;
-      right: 25px;
-      bottom: 23px;
-      left: 25px;
+      display: flex;
+      min-height: 390px;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
-    .photo-caption strong,
-    .photo-caption span {
+    .architecture-node {
+      width: 78%;
+      min-height: 61px;
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--header);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(16px);
+    }
+
+    .architecture-node:nth-child(even) {
+      align-self: flex-end;
+    }
+
+    .architecture-outcome {
+      width: 86%;
+      align-self: center;
+      border-color: color-mix(in srgb, var(--green) 45%, transparent);
+    }
+
+    .architecture-code {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--architecture-soft);
+      color: var(--primary);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .architecture-node strong,
+    .architecture-node small {
       display: block;
     }
 
-    .photo-caption strong {
-      color: white;
+    .architecture-node strong {
       font-family: "Space Grotesk", sans-serif;
-      font-size: 1.35rem;
+      font-size: 0.92rem;
     }
 
-    .photo-caption span {
-      margin-top: 4px;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.85rem;
+    .architecture-node small {
+      margin-top: 2px;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 0.64rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .architecture-chip {
+      color: var(--muted);
+      font-size: 0.53rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .architecture-outcome .architecture-code,
+    .architecture-outcome .architecture-chip {
+      color: var(--green);
+    }
+
+    .architecture-card.is-flowing .architecture-signal {
+      opacity: 1;
+      animation: architecture-route 10s linear infinite;
+    }
+
+    .architecture-card.is-flowing .architecture-node {
+      opacity: 0.72;
+      animation: architecture-node-pulse 10s ease-in-out var(--stage) infinite;
+    }
+
+    .architecture-card.is-flowing .architecture-status-dot {
+      animation: architecture-status 2s ease-in-out infinite;
     }
 
     .about-copy {
@@ -1244,6 +1397,28 @@
       to { transform: rotate(360deg); }
     }
 
+    @keyframes architecture-route {
+      to { stroke-dashoffset: -1; }
+    }
+
+    @keyframes architecture-node-pulse {
+      0%, 18%, 100% {
+        opacity: 0.72;
+        transform: translateY(0);
+      }
+
+      4%, 14% {
+        opacity: 1;
+        border-color: var(--architecture-line);
+        box-shadow: 0 14px 38px var(--architecture-glow);
+        transform: translateY(-3px);
+      }
+    }
+
+    @keyframes architecture-status {
+      50% { box-shadow: 0 0 0 8px rgba(86, 230, 165, 0); }
+    }
+
     @media (max-width: 1120px) {
       #primaryNav {
         gap: 16px;
@@ -1463,8 +1638,39 @@
         margin-bottom: 32px;
       }
 
-      .about-photo {
-        min-height: 430px;
+      .architecture-card {
+        min-height: 610px;
+        padding: 21px;
+      }
+
+      .architecture-header {
+        align-items: flex-start;
+      }
+
+      .architecture-live {
+        display: none;
+      }
+
+      .architecture-flow,
+      .architecture-nodes {
+        min-height: 465px;
+      }
+
+      .architecture-node,
+      .architecture-outcome {
+        width: 92%;
+      }
+
+      .architecture-node:nth-child(even) {
+        align-self: flex-end;
+      }
+
+      .architecture-node small {
+        white-space: normal;
+      }
+
+      .architecture-chip {
+        display: none;
       }
 
       .capability-list,
@@ -1508,6 +1714,22 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+      }
+
+      .architecture-signal,
+      .architecture-card.is-flowing .architecture-signal,
+      .architecture-card.is-flowing .architecture-node,
+      .architecture-card.is-flowing .architecture-status-dot {
+        animation: none !important;
+      }
+
+      .architecture-node {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .architecture-signal {
+        opacity: 0 !important;
       }
     }
   </style>
@@ -1599,11 +1821,37 @@
         </div>
 
         <div class="about-grid">
-          <div class="about-photo reveal">
-            <img src="profile-photo2.png" alt="Bryan Condino professional portrait" loading="lazy">
-            <div class="photo-caption">
-              <strong>Bryan Condino</strong>
-              <span>Backend, database, reporting and automation specialist</span>
+          <div class="architecture-card reveal" role="group" aria-labelledby="architectureTitle">
+            <span class="architecture-grid" aria-hidden="true"></span>
+            <div class="architecture-header">
+              <div>
+                <span class="architecture-kicker"><span class="architecture-status-dot" aria-hidden="true"></span> Delivery Architecture</span>
+                <h3 id="architectureTitle">How I Build Reliable Systems</h3>
+              </div>
+              <span class="architecture-live">Live Flow</span>
+            </div>
+            <div class="architecture-flow">
+              <svg class="architecture-connectors" viewBox="0 0 440 390" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path class="architecture-track" pathLength="1" d="M74 37 C74 78 366 61 366 104 S74 135 74 178 S366 210 366 252 S220 310 220 352" />
+                <path class="architecture-signal" pathLength="1" d="M74 37 C74 78 366 61 366 104 S74 135 74 178 S366 210 366 252 S220 310 220 352" />
+              </svg>
+              <ol class="architecture-nodes" aria-label="Delivery architecture stages">
+                <li class="architecture-node" style="--stage: 0s">
+                  <span class="architecture-code">01</span><span><strong>Business Need</strong><small>Goals · Users · Rules</small></span><span class="architecture-chip">Discover</span>
+                </li>
+                <li class="architecture-node" style="--stage: 2s">
+                  <span class="architecture-code">02</span><span><strong>Data &amp; Backend</strong><small>Oracle · SQL · APIs</small></span><span class="architecture-chip">Design</span>
+                </li>
+                <li class="architecture-node" style="--stage: 4s">
+                  <span class="architecture-code">03</span><span><strong>Automation &amp; AI</strong><small>AWS · Python · Assisted workflows</small></span><span class="architecture-chip">Build</span>
+                </li>
+                <li class="architecture-node" style="--stage: 6s">
+                  <span class="architecture-code">04</span><span><strong>QA &amp; Validation</strong><small>Cypress · Reconciliation · Monitoring</small></span><span class="architecture-chip">Verify</span>
+                </li>
+                <li class="architecture-node architecture-outcome" style="--stage: 8s">
+                  <span class="architecture-code">05</span><span><strong>Reliable Outcome</strong><small>Faster · Observable · Supportable</small></span><span class="architecture-chip">Deliver</span>
+                </li>
+              </ol>
             </div>
           </div>
           <div class="about-copy reveal">
