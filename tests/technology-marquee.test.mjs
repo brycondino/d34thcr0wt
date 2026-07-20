@@ -7,17 +7,21 @@ import { dirname, resolve } from 'node:path';
 const testDir = dirname(fileURLToPath(import.meta.url));
 const animations = readFileSync(resolve(testDir, '..', 'site-animations.js'), 'utf8');
 
-test('technology strip becomes an accessible two-lane local SVG marquee', () => {
+test('technology strip becomes an accessible three-row circular logo showcase', () => {
   assert.ok(animations.includes('setupTechnologyMarquee'));
+  assert.equal((animations.match(/renderLane\(/g) || []).length >= 4, true);
   assert.ok(animations.includes('technology-marquee-lane--forward'));
   assert.ok(animations.includes('technology-marquee-lane--reverse'));
+  assert.ok(animations.includes('technology-marquee-lane--slow'));
   assert.ok(animations.includes('technology-marquee-forward'));
   assert.ok(animations.includes('technology-marquee-reverse'));
   assert.ok(animations.includes('aria-hidden="true"'));
   assert.ok(animations.includes('renderLogo'));
   assert.ok(animations.includes('<svg class="technology-marquee-logo"'));
   assert.ok(!animations.includes('cdn.simpleicons.org'));
-  assert.ok(!animations.includes('onerror="this.closest'));
+  assert.ok(animations.includes('technology-marquee-card'));
+  assert.ok(animations.includes('technology-marquee-logo--wide'));
+  assert.ok(animations.includes('technology-marquee-logo--compact'));
 
   for (const tool of [
     'Oracle', 'ChatGPT', 'Claude', 'DeepSeek', 'GitHub Copilot', 'n8n',
